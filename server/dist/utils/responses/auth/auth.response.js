@@ -9,34 +9,24 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.User = void 0;
-const typeorm_1 = require("typeorm");
+exports.AuthResponse = void 0;
 const type_graphql_1 = require("type-graphql");
-const Chanel_1 = require("./Chanel");
-let User = class User extends typeorm_1.BaseEntity {
+let AuthResponse = class AuthResponse {
 };
 __decorate([
     (0, type_graphql_1.Field)(),
-    (0, typeorm_1.PrimaryGeneratedColumn)("uuid"),
-    __metadata("design:type", String)
-], User.prototype, "id", void 0);
+    __metadata("design:type", Boolean)
+], AuthResponse.prototype, "status", void 0);
 __decorate([
-    (0, type_graphql_1.Field)(),
-    (0, typeorm_1.Column)({ unique: true }),
+    (0, type_graphql_1.Field)({ nullable: true }),
     __metadata("design:type", String)
-], User.prototype, "username", void 0);
+], AuthResponse.prototype, "message", void 0);
 __decorate([
-    (0, typeorm_1.Column)(),
+    (0, type_graphql_1.Field)({ nullable: true }),
     __metadata("design:type", String)
-], User.prototype, "password", void 0);
-__decorate([
-    (0, type_graphql_1.Field)(() => [Chanel_1.Channel]),
-    (0, typeorm_1.OneToMany)(() => Chanel_1.Channel, channel => channel.user),
-    __metadata("design:type", Array)
-], User.prototype, "channels", void 0);
-User = __decorate([
-    (0, type_graphql_1.ObjectType)(),
-    (0, typeorm_1.Entity)('users')
-], User);
-exports.User = User;
-//# sourceMappingURL=User.js.map
+], AuthResponse.prototype, "token", void 0);
+AuthResponse = __decorate([
+    (0, type_graphql_1.ObjectType)()
+], AuthResponse);
+exports.AuthResponse = AuthResponse;
+//# sourceMappingURL=auth.response.js.map

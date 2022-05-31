@@ -17,6 +17,7 @@ import { createConnection } from "typeorm";
     migrations: ["dist/entity/migrations/*.js"],
     synchronize: true,
   });
+  
   const app = express();
 
   app.get("/", (_, res) => {

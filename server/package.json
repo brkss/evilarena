@@ -4,6 +4,7 @@
    "description": "Awesome project developed with TypeORM.",
    "type": "commonjs",
    "devDependencies": {
+      "@types/bcrypt": "^5.0.0",
       "@types/express": "^4.17.13",
       "@types/graphql": "^14.5.0",
       "@types/node": "^17.0.38",
@@ -13,8 +14,13 @@
    },
    "dependencies": {
       "apollo-server-express": "^3.8.1",
+      "bcrypt": "^5.0.1",
+      "class-validator": "^0.13.2",
+      "cookie-parser": "^1.4.6",
+      "dotenv": "^16.0.1",
       "express": "^4.18.1",
       "graphql": "15.3.0",
+      "jsonwebtoken": "^8.5.1",
       "mysql": "^2.18.1",
       "reflect-metadata": "^0.1.13",
       "type-graphql": "^1.1.1",

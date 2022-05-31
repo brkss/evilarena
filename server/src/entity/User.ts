@@ -9,12 +9,13 @@ export class User extends BaseEntity {
   @PrimaryGeneratedColumn("uuid")
   id: string;
 
+
   @Field()
   @Column({ unique: true })
   username: string;
 
   @Column()
-  passowrd: string;
+  password: string;
 
   @Field(() => [Channel])
   @OneToMany(() => Channel, channel => channel.user)
