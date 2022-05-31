@@ -3,7 +3,7 @@ import { ObjectType, Field } from "type-graphql";
 import { Channel } from './Chanel';
 
 @ObjectType()
-@Entity()
+@Entity('users')
 export class User extends BaseEntity {
   @Field()
   @PrimaryGeneratedColumn("uuid")
