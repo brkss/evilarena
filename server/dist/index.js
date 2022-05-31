@@ -8,7 +8,19 @@ const express_1 = __importDefault(require("express"));
 const resolvers_1 = require("./resolvers");
 const apollo_server_express_1 = require("apollo-server-express");
 const type_graphql_1 = require("type-graphql");
+const typeorm_1 = require("typeorm");
 (async () => {
+    await (0, typeorm_1.createConnection)({
+        host: "localhost",
+        type: "mysql",
+        port: 3306,
+        username: "root",
+        password: "root",
+        database: "evilarena",
+        entities: ["dist/entity/*.js"],
+        migrations: ["dist/entity/migrations/*.js"],
+        synchronize: true,
+    });
     const app = (0, express_1.default)();
     app.get("/", (_, res) => {
         res.send("hello world!");

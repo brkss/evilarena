@@ -3,8 +3,20 @@ import express from "express";
 import { UserResolver } from "./resolvers";
 import { ApolloServer } from "apollo-server-express";
 import { buildSchema } from "type-graphql";
+import { createConnection } from "typeorm";
 
 (async () => {
+  await createConnection({
+    host: "localhost",
+    type: "mysql",
+    port: 3306,
+    username: "root",
+    password: "root",
+    database: "evilarena",
+    entities: ["dist/entity/*.js"],
+    migrations: ["dist/entity/migrations/*.js"],
+    synchronize: true,
+  });
   const app = express();
 
   app.get("/", (_, res) => {
