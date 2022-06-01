@@ -5,6 +5,8 @@ import { UserResolver } from "./resolvers";
 import { ApolloServer } from "apollo-server-express";
 import { buildSchema } from "type-graphql";
 import { createConnection } from "typeorm";
+import cookieParser from 'cookie-parser';
+import { refreshToken } from './utils/token';
 
 (async () => {
   await createConnection({
@@ -20,10 +22,12 @@ import { createConnection } from "typeorm";
   });
 
   const app = express();
-
+  app.use(cookieParser());
   app.get("/", (_, res) => {
     res.send("hello world!");
   });
+
+  app.post("/refresh_token", async (req, res) => await refreshToken(req, res));
 
   const apolloServer = new ApolloServer({
     schema: await buildSchema({
@@ -33,7 +37,7 @@ import { createConnection } from "typeorm";
   });
   await apolloServer.start();
   apolloServer.applyMiddleware({ app });
-
+  
   app.listen(4000, () => {
     console.log("🚀 server running : http://localhost:4000");
   });
