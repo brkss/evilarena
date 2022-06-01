@@ -1,16 +1,34 @@
-import { Resolver, Query, Mutation, Arg, UseMiddleware, Ctx } from "type-graphql";
+import {
+  Resolver,
+  Query,
+  Mutation,
+  Arg,
+  UseMiddleware,
+  Ctx,
+} from "type-graphql";
 import { CreateChannelInput } from "../utils/inputs";
 import { CreateChannelResponse } from "../utils/responses";
 import { Channel } from "../entity/Chanel";
-import { isUserAuth } from '../utils/middleware/auth.mw';
-import {IContext} from "../utils/types/Context";
-import { User } from '../entity/User';
+import { isUserAuth } from "../utils/middleware/auth.mw";
+import { IContext } from "../utils/types/Context";
+import { User } from "../entity/User";
 
 @Resolver()
 export class ChannelResolver {
   @Query(() => String)
   helloChannel() {
     return "coco channel !";
+  }
+
+  @UseMiddleware(isUserAuth)
+  @Query(() => [Channel])
+  async channels(@Ctx() ctx: IContext): Promise<Channel[]> {
+    const user = await User.findOne({ where: { id: ctx.payload.userId } });
+    if (!user) {
+      return [];
+    }
+    const channels = await Channel.find({ where: { user: user } });
+    return channels;
   }
 
   @UseMiddleware(isUserAuth)
@@ -25,12 +43,12 @@ export class ChannelResolver {
         message: "Invalid Data",
       };
     }
-    const user = await User.findOne({where: {id: ctx.payload.userId}});
-    if(!user){
+    const user = await User.findOne({ where: { id: ctx.payload.userId } });
+    if (!user) {
       return {
         status: true,
-        message: "User not found !"
-      }
+        message: "User not found !",
+      };
     }
     try {
       const channel = new Channel();

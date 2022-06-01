@@ -23,6 +23,14 @@ let ChannelResolver = class ChannelResolver {
     helloChannel() {
         return "coco channel !";
     }
+    async channels(ctx) {
+        const user = await User_1.User.findOne({ where: { id: ctx.payload.userId } });
+        if (!user) {
+            return [];
+        }
+        const channels = await Chanel_1.Channel.find({ where: { user: user } });
+        return channels;
+    }
     async createChannel(data, ctx) {
         if (!data || !data.name) {
             return {
@@ -34,7 +42,7 @@ let ChannelResolver = class ChannelResolver {
         if (!user) {
             return {
                 status: true,
-                message: "User not found !"
+                message: "User not found !",
             };
         }
         try {
@@ -63,6 +71,14 @@ __decorate([
     __metadata("design:paramtypes", []),
     __metadata("design:returntype", void 0)
 ], ChannelResolver.prototype, "helloChannel", null);
+__decorate([
+    (0, type_graphql_1.UseMiddleware)(auth_mw_1.isUserAuth),
+    (0, type_graphql_1.Query)(() => [Chanel_1.Channel]),
+    __param(0, (0, type_graphql_1.Ctx)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object]),
+    __metadata("design:returntype", Promise)
+], ChannelResolver.prototype, "channels", null);
 __decorate([
     (0, type_graphql_1.UseMiddleware)(auth_mw_1.isUserAuth),
     (0, type_graphql_1.Mutation)(() => responses_1.CreateChannelResponse),
