@@ -1,10 +1,12 @@
-import React from "react";
-import { Box, Heading } from "@chakra-ui/react";
+import React from 'react';
+import { Box, Heading } from '@chakra-ui/react';
 
-export const Home: React.FC = () => {
+export const Home : React.FC = () => {
+
   return (
     <Box>
-      <Heading>Hello From Home !</Heading>
+      <Heading>this is home !</Heading>
     </Box>
-  );
-};
+  )
+
+}

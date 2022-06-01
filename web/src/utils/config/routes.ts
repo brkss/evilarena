@@ -1,8 +1,7 @@
 import { IRoute } from "../types/Route";
-import { Home, Login } from "../../pages";
+import { Home, Login, Channel } from "../../pages";
 
 export const routes: IRoute[] = [
-  
   {
     name: "Login",
     exeact: true,
@@ -12,7 +11,7 @@ export const routes: IRoute[] = [
   },
 ];
 
-export const protected_routes : IRoute[] = [
+export const protected_routes: IRoute[] = [
   {
     name: "Home",
     path: "/",
@@ -20,4 +19,11 @@ export const protected_routes : IRoute[] = [
     exeact: true,
     protected: true,
   },
-]
+  {
+    name: "Channels",
+    path: "/channels",
+    component: Channel,
+    exeact: true,
+    protected: true,
+  },
+];
