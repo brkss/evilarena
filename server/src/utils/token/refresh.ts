@@ -1,7 +1,7 @@
 import { verify } from "jsonwebtoken";
 import { User } from "../../entity/User";
 import { Response, Request } from "express";
-import {generateAccessToken} from ".";
+import {generateAccessToken, generateRefreshToken} from ".";
 
 export const refreshToken = async (req: Request, res: Response) => {
   const token = req.cookies.uid;
@@ -37,6 +37,9 @@ export const refreshToken = async (req: Request, res: Response) => {
   }
   const rt = generateAccessToken(user);
 
+  res.cookie('uid', generateRefreshToken(user), {
+    httpOnly: true
+  });
   return res.send({
     token: rt,
     status: true

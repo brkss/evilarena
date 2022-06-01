@@ -37,6 +37,9 @@ const refreshToken = async (req, res) => {
         });
     }
     const rt = (0, _1.generateAccessToken)(user);
+    res.cookie('uid', (0, _1.generateRefreshToken)(user), {
+        httpOnly: true
+    });
     return res.send({
         token: rt,
         status: true
