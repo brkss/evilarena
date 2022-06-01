@@ -19,6 +19,7 @@ const responses_1 = require("../utils/responses");
 const inputs_1 = require("../utils/inputs");
 const bcrypt_1 = require("bcrypt");
 const token_1 = require("../utils/token");
+const auth_mw_1 = require("../utils/middleware/auth.mw");
 let UserResolver = class UserResolver {
     wussup() {
         return "what's happening !";
@@ -41,7 +42,7 @@ let UserResolver = class UserResolver {
             return {
                 status: true,
                 message: "User registered successfuly !",
-                token: (0, token_1.generateAccessToken)(user)
+                token: (0, token_1.generateAccessToken)(user),
             };
         }
         catch (e) {
@@ -93,6 +94,7 @@ let UserResolver = class UserResolver {
     }
 };
 __decorate([
+    (0, type_graphql_1.UseMiddleware)(auth_mw_1.isUserAuth),
     (0, type_graphql_1.Query)(() => String),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", []),

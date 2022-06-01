@@ -1,20 +1,32 @@
-import { Resolver, Query, Mutation, Arg, Ctx } from "type-graphql";
+import {
+  Resolver,
+  Query,
+  Mutation,
+  Arg,
+  Ctx,
+  UseMiddleware,
+} from "type-graphql";
 import { User } from "../entity/User";
 import { AuthResponse } from "../utils/responses";
 import { LoginInput, RegisterInput } from "../utils/inputs";
 import { hash, compare } from "bcrypt";
 import { generateAccessToken, generateRefreshToken } from "../utils/token";
 import { IContext } from "../utils/types/Context";
+import { isUserAuth } from "../utils/middleware/auth.mw";
 
 @Resolver()
 export class UserResolver {
+  @UseMiddleware(isUserAuth)
   @Query(() => String)
   wussup() {
     return "what's happening !";
   }
 
   @Mutation(() => AuthResponse)
-  async register(@Arg("data") data: RegisterInput, @Ctx() ctx: IContext): Promise<AuthResponse> {
+  async register(
+    @Arg("data") data: RegisterInput,
+    @Ctx() ctx: IContext
+  ): Promise<AuthResponse> {
     if (!data.username || !data.password) {
       return {
         status: false,
@@ -32,7 +44,7 @@ export class UserResolver {
       return {
         status: true,
         message: "User registered successfuly !",
-        token: generateAccessToken(user)
+        token: generateAccessToken(user),
       };
     } catch (e) {
       console.log("something went wrong while registring new user : ", e);
