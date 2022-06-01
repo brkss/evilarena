@@ -1,7 +1,7 @@
 import "dotenv/config";
 import "reflect-metadata";
 import express from "express";
-import { UserResolver } from "./resolvers";
+import { UserResolver, ChannelResolver } from "./resolvers";
 import { ApolloServer } from "apollo-server-express";
 import { buildSchema } from "type-graphql";
 import { createConnection } from "typeorm";
@@ -25,7 +25,7 @@ import cors from "cors";
   const app = express();
   app.use(
     cors({
-      origin: "http://localhost:3000",
+      origin: "*",
       credentials: true,
     })
   );
@@ -38,7 +38,7 @@ import cors from "cors";
 
   const apolloServer = new ApolloServer({
     schema: await buildSchema({
-      resolvers: [UserResolver],
+      resolvers: [UserResolver, ChannelResolver],
     }),
     context: ({ req, res }) => ({ req, res }),
   });

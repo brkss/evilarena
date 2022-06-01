@@ -9,20 +9,21 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.LoginInput = void 0;
+exports.ChannelResolver = void 0;
 const type_graphql_1 = require("type-graphql");
-let LoginInput = class LoginInput {
+let ChannelResolver = class ChannelResolver {
+    helloChannel() {
+        return "coco channel !";
+    }
 };
 __decorate([
-    (0, type_graphql_1.Field)(),
-    __metadata("design:type", String)
-], LoginInput.prototype, "username", void 0);
-__decorate([
-    (0, type_graphql_1.Field)(),
-    __metadata("design:type", String)
-], LoginInput.prototype, "password", void 0);
-LoginInput = __decorate([
-    (0, type_graphql_1.InputType)()
-], LoginInput);
-exports.LoginInput = LoginInput;
-//# sourceMappingURL=auth.input.js.map
+    (0, type_graphql_1.Query)(() => String),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", []),
+    __metadata("design:returntype", void 0)
+], ChannelResolver.prototype, "helloChannel", null);
+ChannelResolver = __decorate([
+    (0, type_graphql_1.Resolver)()
+], ChannelResolver);
+exports.ChannelResolver = ChannelResolver;
+//# sourceMappingURL=channel.resolver.js.map
