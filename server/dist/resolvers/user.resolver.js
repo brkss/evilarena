@@ -18,11 +18,12 @@ const User_1 = require("../entity/User");
 const responses_1 = require("../utils/responses");
 const inputs_1 = require("../utils/inputs");
 const bcrypt_1 = require("bcrypt");
+const token_1 = require("../utils/token");
 let UserResolver = class UserResolver {
     wussup() {
         return "what's happening !";
     }
-    async register(data) {
+    async register(data, ctx) {
         if (!data.username || !data.password) {
             return {
                 status: false,
@@ -34,9 +35,13 @@ let UserResolver = class UserResolver {
             user.username = data.username;
             user.password = await (0, bcrypt_1.hash)(data.password, 5);
             await user.save();
+            ctx.res.cookie("uid", (0, token_1.generateRefreshToken)(user), {
+                httpOnly: true,
+            });
             return {
                 status: true,
                 message: "User registered successfuly !",
+                token: (0, token_1.generateAccessToken)(user)
             };
         }
         catch (e) {
@@ -47,7 +52,7 @@ let UserResolver = class UserResolver {
             };
         }
     }
-    async login(data) {
+    async login(data, ctx) {
         if (!data.username || !data.password) {
             return {
                 status: false,
@@ -69,9 +74,13 @@ let UserResolver = class UserResolver {
                     message: "Invalid Password",
                 };
             }
+            ctx.res.cookie("uid", (0, token_1.generateRefreshToken)(user), {
+                httpOnly: true,
+            });
             return {
                 status: true,
                 message: "Login Successfuly !",
+                token: (0, token_1.generateAccessToken)(user),
             };
         }
         catch (e) {
@@ -81,10 +90,6 @@ let UserResolver = class UserResolver {
                 message: "Something Went Wrong !",
             };
         }
-        return {
-            status: false,
-            message: "Unfinished !",
-        };
     }
 };
 __decorate([
@@ -96,15 +101,17 @@ __decorate([
 __decorate([
     (0, type_graphql_1.Mutation)(() => responses_1.AuthResponse),
     __param(0, (0, type_graphql_1.Arg)("data")),
+    __param(1, (0, type_graphql_1.Ctx)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [inputs_1.RegisterInput]),
+    __metadata("design:paramtypes", [inputs_1.RegisterInput, Object]),
     __metadata("design:returntype", Promise)
 ], UserResolver.prototype, "register", null);
 __decorate([
     (0, type_graphql_1.Mutation)(() => responses_1.AuthResponse),
     __param(0, (0, type_graphql_1.Arg)("data")),
+    __param(1, (0, type_graphql_1.Ctx)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [inputs_1.LoginInput]),
+    __metadata("design:paramtypes", [inputs_1.LoginInput, Object]),
     __metadata("design:returntype", Promise)
 ], UserResolver.prototype, "login", null);
 UserResolver = __decorate([
