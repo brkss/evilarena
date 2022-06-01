@@ -6,4 +6,5 @@ export interface IRoute {
   exeact: boolean;
   component: any;
   props?: any; 
+  protected?: boolean;
 }
