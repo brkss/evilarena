@@ -1,0 +1,10 @@
+mutation CreateChannel($name: String!){
+  createChannel(data: {name: $name}){
+    status
+    message
+    channel{
+      id
+      name
+    }
+  }
+}
