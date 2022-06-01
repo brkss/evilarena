@@ -5,11 +5,11 @@ import {
   BaseEntity,
   CreateDateColumn,
   ManyToOne,
-  OneToMany,
+ // OneToMany,
 } from "typeorm";
 import { User } from "./User";
 import { ObjectType, Field } from "type-graphql";
-import { Block } from "./Block";
+//import { Block } from "./Block";
 
 @ObjectType()
 @Entity("channels")
