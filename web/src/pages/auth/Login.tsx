@@ -1,10 +1,16 @@
 import React from "react";
 import { Box, Center, Heading, Input, Button } from "@chakra-ui/react";
 import { useLoginMutation } from "../../generated/graphql";
+import { useNavigate } from "react-router-dom";
+import { setToken, getToken } from "../../utils/token/token";
+import { Error } from "../../component";
 
 export const Login: React.FC = () => {
   const [form, setForm] = React.useState<any>({});
   const [login] = useLoginMutation();
+  const navigate = useNavigate();
+  const [loading, setLoading] = React.useState(false);
+  const [error, setError] = React.useState("");
 
   const handleForm = (e: React.FormEvent<HTMLInputElement>) => {
     setForm({
@@ -14,16 +20,25 @@ export const Login: React.FC = () => {
   };
 
   const handleLogin = () => {
-    if (!form || !form.username || !form.password) return;
+    if (!form || !form.username || !form.password) {
+      setError("INVALID DATA !");
+      return;
+    }
 
+    setLoading(true);
     login({
       variables: {
         username: form.username,
         password: form.password,
       },
     }).then((res) => {
-      if (res.data?.login.status) {
-        window.history.pushState({}, "", "/");
+      setLoading(false);
+      if (res.data?.login.status && res.data.login.token) {
+        setToken(res.data.login.token);
+        navigate("/");
+      }
+      if (!res.data?.login.status) {
+        setError(res.data?.login.message || "Something went wrong !");
       }
     });
   };
@@ -31,6 +46,8 @@ export const Login: React.FC = () => {
     <Center h={"100vh"}>
       <Box w={"400px"}>
         <Heading mb={"10px"}>Login</Heading>
+        {error ? <Error txt={error} /> : null}
+        {getToken()}
         <Input
           id={"username"}
           onChange={(e) => handleForm(e)}
@@ -39,6 +56,7 @@ export const Login: React.FC = () => {
           mb={"10px"}
           placeholder={"username"}
           variant={"filled"}
+          disabled={loading}
         />
         <Input
           id={"password"}
@@ -48,8 +66,14 @@ export const Login: React.FC = () => {
           type={"password"}
           placeholder={"password"}
           variant={"filled"}
+          disabled={loading}
         />
-        <Button size={"md"} onClick={() => handleLogin()}>
+        <Button
+          loadingText={"Loging.."}
+          isLoading={loading}
+          size={"md"}
+          onClick={() => handleLogin()}
+        >
           Login
         </Button>
       </Box>

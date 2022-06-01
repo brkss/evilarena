@@ -1,9 +1,29 @@
 import React from "react";
 import { Routes, BrowserRouter as Router, Route } from "react-router-dom";
 import { routes, protected_routes } from "./utils/config/routes";
-import { ProtectLayout, AuthLayout } from "./component";
+import { ProtectLayout, AuthLayout, Loading } from "./component";
+import { URL } from "./utils/config/default";
+import { setToken } from "./utils/token/token";
 
 export const Application: React.FC = () => {
+  const [loading, setLoading] = React.useState(true);
+  React.useEffect(() => {
+    //setLoading(true);
+    fetch(`${URL}/refresh_token`, {
+      method: "POST",
+      credentials: "include",
+    }).then(async (res) => {
+      const data = await res.json();
+      if (data.status) {
+        console.log("setup token");
+        setToken(data.token);
+        setLoading(false);
+      }
+    });
+  }, []);
+
+  if (loading) return <Loading />;
+
   return (
     <Router>
       <Routes>
