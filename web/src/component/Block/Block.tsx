@@ -1,10 +1,14 @@
 import React from "react";
-import { Box } from "@chakra-ui/react";
+import { Box, Image } from "@chakra-ui/react";
 
 interface Props {
   img: string;
 }
 
 export const Block: React.FC<Props> = ({ img }) => {
-  return <Box bg={"red"} h={"230px"} w={"230px"} bgImg={img} />;
+  return (
+    <Box bg={"blue"}>
+      <Image src={img} h={"100%"} w={"100%"} />
+    </Box>
+  );
 };

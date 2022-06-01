@@ -1,5 +1,5 @@
 import React from "react";
-import { Box, Heading, Grid, GridItem } from "@chakra-ui/react";
+import { Box, Heading, Grid, GridItem, SimpleGrid } from "@chakra-ui/react";
 import { Block } from "../component";
 
 const data = [
@@ -46,13 +46,11 @@ export const Channel: React.FC = () => {
       <Heading fontWeight={"bold"} mb={"30px"}>
         CHANNEL NAME
       </Heading>
-      <Grid gap={4} templateColumns="repeat(6, 1fr)">
+      <SimpleGrid spacing={4} columns={{ lg: 6, md: 4, sm: 2 }}>
         {data.map((block, key) => (
-          <GridItem gap={4} key={key} colSpan={{ default: 3, md: 1 }}>
-            <Block img={block.image} />
-          </GridItem>
+          <Block key={key} img={block.image} />
         ))}
-      </Grid>
+      </SimpleGrid>
     </Box>
   );
 };
