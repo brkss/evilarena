@@ -46,9 +46,10 @@ __decorate([
     __metadata("design:type", Date)
 ], Block.prototype, "created_at", void 0);
 __decorate([
-    (0, type_graphql_1.Field)(() => Chanel_1.Channel),
-    (0, typeorm_1.ManyToOne)(() => Chanel_1.Channel, channel => channel.blocks, { onDelete: 'CASCADE', onUpdate: 'CASCADE' }),
-    __metadata("design:type", Chanel_1.Channel)
+    (0, type_graphql_1.Field)(() => [Chanel_1.Channel]),
+    (0, typeorm_1.ManyToMany)(() => Chanel_1.Channel),
+    (0, typeorm_1.JoinTable)(),
+    __metadata("design:type", Array)
 ], Block.prototype, "channel", void 0);
 Block = __decorate([
     (0, type_graphql_1.ObjectType)(),

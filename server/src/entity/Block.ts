@@ -1,4 +1,4 @@
-import { Entity, Column, PrimaryGeneratedColumn, CreateDateColumn, BaseEntity, ManyToOne } from 'typeorm';
+import { Entity, Column, PrimaryGeneratedColumn, CreateDateColumn, BaseEntity, ManyToMany, JoinTable} from 'typeorm';
 import {  ObjectType, Field} from 'type-graphql';
 import {Channel} from './Chanel';
 
@@ -30,10 +30,15 @@ export class Block extends BaseEntity {
   @CreateDateColumn()
   created_at: Date;
 
-  @Field(() => Channel)
+
+  @Field(() => [Channel])
+  @ManyToMany(() => Channel)
+  @JoinTable()
+  channel: [Channel]
+  /*
   @ManyToOne(() => Channel, channel => channel.blocks, {onDelete: 'CASCADE', onUpdate: 'CASCADE'})
   channel: Channel
-
+  */
 }
 
 
