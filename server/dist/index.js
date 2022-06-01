@@ -12,6 +12,7 @@ const type_graphql_1 = require("type-graphql");
 const typeorm_1 = require("typeorm");
 const cookie_parser_1 = __importDefault(require("cookie-parser"));
 const token_1 = require("./utils/token");
+const cors_1 = __importDefault(require("cors"));
 (async () => {
     await (0, typeorm_1.createConnection)({
         host: "localhost",
@@ -25,6 +26,10 @@ const token_1 = require("./utils/token");
         synchronize: true,
     });
     const app = (0, express_1.default)();
+    app.use((0, cors_1.default)({
+        origin: "http://localhost:3000",
+        credentials: true,
+    }));
     app.use((0, cookie_parser_1.default)());
     app.get("/", (_, res) => {
         res.send("hello world!");
@@ -37,7 +42,7 @@ const token_1 = require("./utils/token");
         context: ({ req, res }) => ({ req, res }),
     });
     await apolloServer.start();
-    apolloServer.applyMiddleware({ app });
+    apolloServer.applyMiddleware({ app, cors: false });
     app.listen(4000, () => {
         console.log("🚀 server running : http://localhost:4000");
     });
