@@ -101,6 +101,11 @@ export type CreateChannelMutationVariables = Exact<{
 
 export type CreateChannelMutation = { __typename?: 'Mutation', createChannel: { __typename?: 'CreateChannelResponse', status: boolean, message?: string | null, channel?: { __typename?: 'Channel', id: string, name: string } | null } };
 
+export type HelloChannelQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type HelloChannelQuery = { __typename?: 'Query', helloChannel: string };
+
 export type LoginMutationVariables = Exact<{
   username: Scalars['String'];
   password: Scalars['String'];
@@ -183,6 +188,38 @@ export function useCreateChannelMutation(baseOptions?: Apollo.MutationHookOption
 export type CreateChannelMutationHookResult = ReturnType<typeof useCreateChannelMutation>;
 export type CreateChannelMutationResult = Apollo.MutationResult<CreateChannelMutation>;
 export type CreateChannelMutationOptions = Apollo.BaseMutationOptions<CreateChannelMutation, CreateChannelMutationVariables>;
+export const HelloChannelDocument = gql`
+    query HelloChannel {
+  helloChannel
+}
+    `;
+
+/**
+ * __useHelloChannelQuery__
+ *
+ * To run a query within a React component, call `useHelloChannelQuery` and pass it any options that fit your needs.
+ * When your component renders, `useHelloChannelQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useHelloChannelQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useHelloChannelQuery(baseOptions?: Apollo.QueryHookOptions<HelloChannelQuery, HelloChannelQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<HelloChannelQuery, HelloChannelQueryVariables>(HelloChannelDocument, options);
+      }
+export function useHelloChannelLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<HelloChannelQuery, HelloChannelQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<HelloChannelQuery, HelloChannelQueryVariables>(HelloChannelDocument, options);
+        }
+export type HelloChannelQueryHookResult = ReturnType<typeof useHelloChannelQuery>;
+export type HelloChannelLazyQueryHookResult = ReturnType<typeof useHelloChannelLazyQuery>;
+export type HelloChannelQueryResult = Apollo.QueryResult<HelloChannelQuery, HelloChannelQueryVariables>;
 export const LoginDocument = gql`
     mutation Login($username: String!, $password: String!) {
   login(data: {username: $username, password: $password}) {

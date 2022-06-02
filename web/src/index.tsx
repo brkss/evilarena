@@ -8,12 +8,13 @@ import { getToken, setToken } from "./utils/token/token";
 import { TokenRefreshLink } from "apollo-link-token-refresh";
 import jwtDecode from "jwt-decode";
 import { URL } from "./utils/config/default";
-import { ApolloClient } from "apollo-client";
+//import { ApolloClient } from '@apo'
+import { ApolloClient } from "@apollo/client";
 import { onError } from "apollo-link-error";
 import { ApolloProvider } from "@apollo/react-hooks";
 import { HttpLink } from "apollo-boost";
 
-const cache = new InMemoryCache({});
+const cache : any = new InMemoryCache({});
 
 const requestLink = new ApolloLink((operation, forward) => {
   const token = getToken();

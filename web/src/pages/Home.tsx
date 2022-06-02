@@ -1,15 +1,16 @@
 import React from "react";
 import { Box, Button, Heading, SimpleGrid } from "@chakra-ui/react";
 import { ChannelThumbnail, CreateChannel, Loading } from "../component";
+import { useChannelsQuery } from "../generated/graphql";
 
 export const Home: React.FC = () => {
   const [doCreate, setDoCreate] = React.useState(false);
-  //const { loading, data, error } = useChannelsQuery({onCompleted: (res) => {console.log("res: ", res)}});
+  const { loading, data, error } = useChannelsQuery({onCompleted: (res) => {console.log("res: ", res)}});
 
-  /*
+
   if (loading || error) {
     return <Loading />;
-    }*/
+  }
 
   return (
     <Box p={"20px"}>
@@ -37,7 +38,7 @@ export const Home: React.FC = () => {
         </Box>
       )}
       <SimpleGrid spacing={4} columns={{ lg: 6, md: 4, sm: 2 }}>
-        {[{name: "CH00"}].map((channel, key) => (
+        {data?.channels.map((channel, key) => (
           <ChannelThumbnail key={key} name={channel.name} />
         ))}
       </SimpleGrid>

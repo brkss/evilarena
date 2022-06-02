@@ -12,6 +12,10 @@ export const CreateChannel: React.FC = () => {
       variables: {
         name: name,
       },
+      update: (store, {data}) => {
+        if(!data || data.createChannel.status === false) return;
+        const channels = store.readQuery<>()
+      }
     }).then((res) => {
       console.log("CREATE CHANNEL RES : ", res);
     });
