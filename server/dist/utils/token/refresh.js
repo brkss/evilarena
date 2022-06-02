@@ -7,7 +7,7 @@ const _1 = require(".");
 const refreshToken = async (req, res) => {
     const token = req.cookies.uid;
     if (!token) {
-        res.send({
+        return res.send({
             status: false,
             token: "",
         });
@@ -20,20 +20,20 @@ const refreshToken = async (req, res) => {
         console.log("Invald Token =>>> ", e);
         return res.send({
             token: "",
-            status: false
+            status: false,
         });
     }
     if (!payload) {
         return res.send({
             status: false,
-            token: ""
+            token: "",
         });
     }
     const user = await User_1.User.findOne({ where: { id: payload.userId } });
     if (!user) {
         return res.send({
             token: "",
-            status: false
+            status: false,
         });
     }
     const rt = (0, _1.generateAccessToken)(user);
@@ -42,7 +42,7 @@ const refreshToken = async (req, res) => {
     });
     return res.send({
         token: rt,
-        status: true
+        status: true,
     });
 };
 exports.refreshToken = refreshToken;

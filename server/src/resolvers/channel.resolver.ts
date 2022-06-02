@@ -21,6 +21,19 @@ export class ChannelResolver {
   }
 
   @UseMiddleware(isUserAuth)
+  @Query(() => Channel, { nullable: true })
+  async channel(
+    @Arg("cid") cid: string,
+    @Ctx() ctx: IContext
+  ): Promise<Channel | null> {
+    const user = await User.findOne({ where: { id: ctx.payload.userId } });
+    if (!user) return null;
+    const channel = await Channel.findOne({ where: { user: user, id: cid } });
+    if (!channel) return null;
+    return channel;
+  }
+
+  @UseMiddleware(isUserAuth)
   @Query(() => [Channel])
   async channels(@Ctx() ctx: IContext): Promise<Channel[]> {
     const user = await User.findOne({ where: { id: ctx.payload.userId } });

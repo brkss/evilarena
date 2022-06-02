@@ -23,13 +23,15 @@ import cors from "cors";
   });
 
   const app = express();
+  app.use(cookieParser());
   app.use(
     cors({
-      origin: "*",
+      //origin: "*",
+      //origin: ["*", "http://localhost:3000]"],
+      origin: "http://localhost:3000",
       credentials: true,
     })
   );
-  app.use(cookieParser());
   app.get("/", (_, res) => {
     res.send("hello world!");
   });
@@ -39,6 +41,7 @@ import cors from "cors";
   const apolloServer = new ApolloServer({
     schema: await buildSchema({
       resolvers: [UserResolver, ChannelResolver],
+      validate: true,
     }),
     context: ({ req, res }) => ({ req, res }),
   });

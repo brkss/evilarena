@@ -1,38 +1,38 @@
 import { verify } from "jsonwebtoken";
 import { User } from "../../entity/User";
 import { Response, Request } from "express";
-import {generateAccessToken, generateRefreshToken} from ".";
+import { generateAccessToken, generateRefreshToken } from ".";
 
 export const refreshToken = async (req: Request, res: Response) => {
   const token = req.cookies.uid;
   if (!token) {
-    res.send({
+    return res.send({
       status: false,
       token: "",
     });
   }
- 
-  let payload : any = null; 
+
+  let payload: any = null;
   try {
     payload = verify(token, process.env.REFRESH_SECRET!);
-  }catch(e){
+  } catch (e) {
     console.log("Invald Token =>>> ", e);
     return res.send({
       token: "",
-      status: false
+      status: false,
     });
   }
-  if(!payload){
+  if (!payload) {
     return res.send({
       status: false,
-      token: ""
+      token: "",
     });
   }
-  const user = await User.findOne({where: {id: payload.userId}})
-  if(!user){
+  const user = await User.findOne({ where: { id: payload.userId } });
+  if (!user) {
     return res.send({
       token: "",
-      status: false
+      status: false,
     });
   }
   const rt = generateAccessToken(user);
@@ -42,7 +42,6 @@ export const refreshToken = async (req: Request, res: Response) => {
   });
   return res.send({
     token: rt,
-    status: true
-  })
-
+    status: true,
+  });
 };

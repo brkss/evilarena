@@ -26,11 +26,11 @@ const cors_1 = __importDefault(require("cors"));
         synchronize: true,
     });
     const app = (0, express_1.default)();
+    app.use((0, cookie_parser_1.default)());
     app.use((0, cors_1.default)({
-        origin: "*",
+        origin: "http://localhost:3000",
         credentials: true,
     }));
-    app.use((0, cookie_parser_1.default)());
     app.get("/", (_, res) => {
         res.send("hello world!");
     });
@@ -38,6 +38,7 @@ const cors_1 = __importDefault(require("cors"));
     const apolloServer = new apollo_server_express_1.ApolloServer({
         schema: await (0, type_graphql_1.buildSchema)({
             resolvers: [resolvers_1.UserResolver, resolvers_1.ChannelResolver],
+            validate: true,
         }),
         context: ({ req, res }) => ({ req, res }),
     });
