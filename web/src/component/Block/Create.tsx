@@ -1,13 +1,27 @@
-import React from 'react';
-import { Box, Text } from '@chakra-ui/react';
+import React from "react";
+import { Box, Text, Center, Textarea } from "@chakra-ui/react";
 
-export const CreateBlock : React.FC = () => {
-
+export const CreateBlock: React.FC = () => {
+  const [show, setShow] = React.useState(true);
 
   return (
-    <Box>
-      <Text>CREATE</Text>
-    </Box>
-  )
-
-}
+    <Center onClick={() => setShow(false)} border={"1px solid #434343"}>
+      {show ? (
+        <Text textAlign={"center"} fontWeight={"bold"}>
+          CREATE OR DRAG AND DROP
+        </Text>
+      ) : (
+        <Textarea
+          fontWeight={"bold"}
+          p={"5px"}
+          _focus={{ outline: "none" }}
+          resize={"none"}
+          rounded={"0"}
+          border={"none"}
+          h={"100%"}
+          w={"100%"}
+        />
+      )}
+    </Center>
+  );
+};

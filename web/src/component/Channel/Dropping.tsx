@@ -1,7 +1,13 @@
 import React from "react";
 import { Center, Text } from "@chakra-ui/react";
 
-export const Dropping: React.FC = () => {
+interface Props {
+  files: File[]
+}
+
+export const Dropping: React.FC<Props> = ({files}) => {
+  
+
   return (
     <Center
       pos={"fixed"}
@@ -14,6 +20,13 @@ export const Dropping: React.FC = () => {
       <Text color={"black"} fontSize={"23px"} fontWeight={"bold"}>
         DROP THE FILES !
       </Text>
+      <ul>
+        {
+          files.map((file, key) => (
+            <li>{file.name}</li>
+          ))
+        }
+      </ul>
     </Center>
   );
 };
