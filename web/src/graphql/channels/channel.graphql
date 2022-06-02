@@ -1,0 +1,6 @@
+query Channel($cid: String!){
+  channel(cid: $cid){
+    id
+    name
+  }
+}

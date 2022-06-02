@@ -1,17 +1,28 @@
 import React from "react";
 import { Box, Heading, Grid, GridItem, SimpleGrid } from "@chakra-ui/react";
-import { CreateBlock, Block, Dropping } from "../component";
+import { CreateBlock, Block, Dropping, Loading } from "../component";
 import { useDropzone } from "react-dropzone";
+import { useChannelQuery } from "../generated/graphql";
+import { Navigate, useParams } from "react-router-dom";
 
 export const Channel: React.FC = () => {
+  const params = useParams();
+  console.log("param : ", params);
+  const { data, loading, error } = useChannelQuery({
+    variables: {
+      cid: params.id || "no",
+    },
+  });
   const { acceptedFiles, getRootProps, getInputProps, isDragActive } =
     useDropzone();
+  if (loading || error) return <Loading />;
+  if (data && !data.channel && !loading && !error) return <Navigate to={"/"} />;
   return (
     //<Box p={10} {...getRootProps()}>
     <Box p={10}>
       <input {...getInputProps()} />
       <Heading fontWeight={"bold"} mb={"30px"}>
-        CHANNEL NAME
+        {data?.channel?.name}
       </Heading>
       <SimpleGrid spacing={4} columns={{ lg: 6, md: 4, sm: 2 }}>
         <CreateBlock />

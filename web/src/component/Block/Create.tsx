@@ -8,10 +8,11 @@ export const CreateBlock: React.FC = () => {
     <Center onClick={() => setShow(false)} border={"1px solid #434343"}>
       {show ? (
         <Text textAlign={"center"} fontWeight={"bold"}>
-          CREATE OR DRAG AND DROP
+          WRITE / DRAG AND DROP
         </Text>
       ) : (
         <Textarea
+          autoFocus={true}
           fontWeight={"bold"}
           p={"5px"}
           _focus={{ outline: "none" }}
