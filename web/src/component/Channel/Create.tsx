@@ -1,6 +1,10 @@
 import React from "react";
 import { Box, Text, Button, Input } from "@chakra-ui/react";
-import { useCreateChannelMutation } from "../../generated/graphql";
+import {
+  ChannelsDocument,
+  ChannelsQuery,
+  useCreateChannelMutation,
+} from "../../generated/graphql";
 
 export const CreateChannel: React.FC = () => {
   const [name, setName] = React.useState<string>("");
@@ -12,10 +16,21 @@ export const CreateChannel: React.FC = () => {
       variables: {
         name: name,
       },
-      update: (store, {data}) => {
-        if(!data || data.createChannel.status === false) return;
-        const channels = store.readQuery<>()
-      }
+      update: (store, { data }) => {
+        if (!data || data.createChannel.status === false) return;
+        const channels =
+          store.readQuery<ChannelsQuery>({
+            query: ChannelsDocument,
+        })?.channels || [];
+        const newChannel = data.createChannel.channel!;
+          //channels.unshift(data.createChannel.channel!);
+        store.writeQuery<ChannelsQuery>({
+          query: ChannelsDocument,
+          data: {
+            channels: [newChannel, ...channels],
+          },
+        });
+      },
     }).then((res) => {
       console.log("CREATE CHANNEL RES : ", res);
     });

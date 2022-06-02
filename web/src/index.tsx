@@ -2,14 +2,14 @@ import React from "react";
 import ReactDOM from "react-dom/client";
 import { Application } from "./Application";
 import { ChakraProvider } from "@chakra-ui/react";
-import { InMemoryCache } from "apollo-cache-inmemory";
+//import { InMemoryCache } from "apollo-cache-inmemory";
 import { ApolloLink } from "apollo-link";
 import { getToken, setToken } from "./utils/token/token";
 import { TokenRefreshLink } from "apollo-link-token-refresh";
 import jwtDecode from "jwt-decode";
 import { URL } from "./utils/config/default";
 //import { ApolloClient } from '@apo'
-import { ApolloClient } from "@apollo/client";
+import { ApolloClient, InMemoryCache } from "@apollo/client";
 import { onError } from "apollo-link-error";
 import { ApolloProvider } from "@apollo/react-hooks";
 import { HttpLink } from "apollo-boost";
