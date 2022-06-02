@@ -17,8 +17,8 @@ export const Application: React.FC = () => {
       if (data.status) {
         console.log("setup token");
         setToken(data.token);
-        setLoading(false);
       }
+        setLoading(false);
     });
   }, []);
 

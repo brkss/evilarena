@@ -1,30 +1,15 @@
 import React from "react";
 import { Box, Button, Heading, SimpleGrid } from "@chakra-ui/react";
-import { ChannelThumbnail, CreateChannel } from "../component";
-
-const channels = [
-  {
-    name: "Ch 00",
-  },
-  {
-    name: "Ch 00",
-  },
-  {
-    name: "Ch 00",
-  },
-  {
-    name: "Ch 00",
-  },
-  {
-    name: "Ch 00",
-  },
-  {
-    name: "Ch 00",
-  },
-];
+import { ChannelThumbnail, CreateChannel, Loading } from "../component";
 
 export const Home: React.FC = () => {
   const [doCreate, setDoCreate] = React.useState(false);
+  //const { loading, data, error } = useChannelsQuery({onCompleted: (res) => {console.log("res: ", res)}});
+
+  /*
+  if (loading || error) {
+    return <Loading />;
+    }*/
 
   return (
     <Box p={"20px"}>
@@ -34,7 +19,7 @@ export const Home: React.FC = () => {
         </Heading>
         <Button
           onClick={() => setDoCreate((curr) => !curr)}
-          _hover={{background: '#434343'}}
+          _hover={{ background: "#434343" }}
           _focus={{ outline: 0 }}
           bg={"black"}
           color={"white"}
@@ -52,7 +37,7 @@ export const Home: React.FC = () => {
         </Box>
       )}
       <SimpleGrid spacing={4} columns={{ lg: 6, md: 4, sm: 2 }}>
-        {channels.map((channel, key) => (
+        {[{name: "CH00"}].map((channel, key) => (
           <ChannelThumbnail key={key} name={channel.name} />
         ))}
       </SimpleGrid>
