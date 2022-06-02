@@ -21,7 +21,7 @@ export const protected_routes: IRoute[] = [
   },
   {
     name: "Channels",
-    path: "/channels",
+    path: "/channel/:id",
     component: Channel,
     exeact: true,
     protected: true,

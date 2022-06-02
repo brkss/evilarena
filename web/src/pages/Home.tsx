@@ -2,11 +2,16 @@ import React from "react";
 import { Box, Button, Heading, SimpleGrid } from "@chakra-ui/react";
 import { ChannelThumbnail, CreateChannel, Loading } from "../component";
 import { useChannelsQuery } from "../generated/graphql";
+import { useNavigate } from "react-router-dom";
 
 export const Home: React.FC = () => {
   const [doCreate, setDoCreate] = React.useState(false);
-  const { loading, data, error } = useChannelsQuery({onCompleted: (res) => {console.log("res: ", res)}});
-
+  const { loading, data, error } = useChannelsQuery({
+    onCompleted: (res) => {
+      console.log("res: ", res);
+    },
+  });
+  const navigate = useNavigate();
 
   if (loading || error) {
     return <Loading />;
@@ -39,7 +44,11 @@ export const Home: React.FC = () => {
       )}
       <SimpleGrid spacing={4} columns={{ lg: 6, md: 4, sm: 2 }}>
         {data?.channels.map((channel, key) => (
-          <ChannelThumbnail key={key} name={channel.name} />
+          <ChannelThumbnail
+            view={() => navigate(`/channel/${channel.id}`)}
+            key={key}
+            name={channel.name}
+          />
         ))}
       </SimpleGrid>
     </Box>
