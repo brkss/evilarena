@@ -21,6 +21,7 @@ export const CreateBlock: React.FC = () => {
           border={"none"}
           h={"100%"}
           w={"100%"}
+          onBlur={() => setShow(true)}  
         />
       )}
     </Center>

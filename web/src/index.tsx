@@ -13,6 +13,7 @@ import { ApolloClient, InMemoryCache } from "@apollo/client";
 import { onError } from "apollo-link-error";
 import { ApolloProvider } from "@apollo/react-hooks";
 import { HttpLink } from "apollo-boost";
+import { createUploadLink } from 'apollo-upload-client';
 
 const cache : any = new InMemoryCache({});
 
@@ -69,6 +70,10 @@ const httpLink = ApolloLink.from([
     uri: `${URL}/graphql`,
     credentials: "include",
   }),
+  createUploadLink({
+    uri: `${URL}/graphql`,
+    credentials: "include"
+  })
 ]);
 
 const client: any = new ApolloClient({
